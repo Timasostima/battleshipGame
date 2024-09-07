@@ -65,16 +65,16 @@ fun gridCall(arr: Array<IntArray>, comic: Font, modifier: Modifier = Modifier) {
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Fixed(11)
-//        , modifier = Modifier.defaultMinSize(800.dp,800.dp)
-    )
-    {
+    ) {
         items(121) {    //Friendly grid
             val x = it % 11
             val y = (it - 1) / 11
             var colorVar by remember {
                 mutableStateOf(
-                    if (x > 0 && y > 0 && arr[x - 1][y - 1] == 1) Color(0xFF006605) // If arr[x][y] == 1, paint green
-                    else Color.LightGray // Use the default color
+                    // If arr[x][y] == 1, paint green
+                    if (x > 0 && y > 0 && arr[x - 1][y - 1] == 1) Color(0xFF006605)
+                    // Use the default color
+                    else Color.LightGray
                 )
             }
 
@@ -85,8 +85,8 @@ fun gridCall(arr: Array<IntArray>, comic: Font, modifier: Modifier = Modifier) {
                     .aspectRatio(1f) // Adjust aspect ratio to make the items smaller
                     .clip(RoundedCornerShape(5.dp))
                     .background(
-                        when {
-                            it == 0 -> Color.Black // Paint the box in the position (0, 0) black
+                        when (it) {
+                            0 -> Color.Black // Paint the box in the position (0, 0) black
                             else -> colorVar
                         }
                     )
@@ -94,14 +94,16 @@ fun gridCall(arr: Array<IntArray>, comic: Font, modifier: Modifier = Modifier) {
                         if (x == 0 || y == 0) {
                             return@clickable
                         }
-                        colorVar = when {
-                            colorVar == Color.Gray -> {
-                                when (arr[x - 1][y - 1]) {
+                        val arrPos = arr[x - 1][y - 1]
+                        colorVar = when (colorVar) {
+                            Color.Gray -> {
+                                when (arrPos) {
                                     1 -> Color(0xFF006605)
                                     0 -> Color.Cyan
                                     else -> Color.Gray
                                 }
                             }
+
                             else -> colorVar
                         }
                     },
@@ -120,9 +122,7 @@ fun gridCallOpponent(arrOpponent: Array<IntArray>, comic: Font, modifier: Modifi
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Fixed(11)
-//        , modifier = Modifier.defaultMinSize(800.dp,800.dp)
-    )
-    {
+    ) {
         items(121) {    //Enemy grid
             var colorVar by remember { mutableStateOf(Color.Gray) } //When it's a hit
             val x = it % 11
@@ -134,8 +134,8 @@ fun gridCallOpponent(arrOpponent: Array<IntArray>, comic: Font, modifier: Modifi
                     .aspectRatio(1f) // Adjust aspect ratio to make the items smaller
                     .clip(RoundedCornerShape(5.dp))
                     .background(
-                        when {
-                            it == 0 -> Color.Black // Paint the box in the position (0, 0) black
+                        when (it) {
+                            0 -> Color.Black // Paint the box in the position (0, 0) black
                             else -> colorVar
                         }
                     )
@@ -143,14 +143,16 @@ fun gridCallOpponent(arrOpponent: Array<IntArray>, comic: Font, modifier: Modifi
                         if (x == 0 || y == 0) {
                             return@clickable
                         }
-                        colorVar = when {
-                            colorVar == Color.Gray -> {
-                                when (arrOpponent[x - 1][y - 1]) {
+                        val arrPos = arrOpponent[x - 1][y - 1]
+                        colorVar = when (colorVar) {
+                            Color.Gray -> {
+                                when (arrPos) {
                                     1 -> Color.Red
                                     0 -> Color.Cyan
                                     else -> Color.Gray
                                 }
                             }
+
                             else -> colorVar
                         }
                     },
